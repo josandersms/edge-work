@@ -9,7 +9,7 @@ cd ubuntu
 ## Prerequisites
 1. Install the following prerequisites via `apt`
 ```bash
-apt install xorriso squashfs-tools git python3-debian gpg liblz4-tool python3-pip -y
+apt install qemu-utils qemu-system xorriso squashfs-tools git python3-debian gpg liblz4-tool python3-pip -y
 ```
 
 2. Install livefs-editor 
@@ -17,6 +17,11 @@ apt install xorriso squashfs-tools git python3-debian gpg liblz4-tool python3-pi
 git clone https://github.com/mwhudson/livefs-editor
 cd livefs-editor
 python3 -m pip install .
+```
+
+3. (OPTIONAL) If planning to use this image on Azure, install the Azure agent
+```bash
+apt install walinuxagent
 ```
 
 ## Download the latest Ubuntu server ISO
