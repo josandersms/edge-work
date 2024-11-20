@@ -19,11 +19,6 @@ cd livefs-editor
 python3 -m pip install .
 ```
 
-3. (OPTIONAL) If planning to use this image on Azure, install the Azure agent
-```bash
-apt install walinuxagent
-```
-
 ## Download the latest Ubuntu server ISO
 ```bash
 wget https://releases.ubuntu.com/22.04/ubuntu-22.04.5-live-server-amd64.iso
