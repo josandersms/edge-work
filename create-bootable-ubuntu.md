@@ -50,7 +50,7 @@ Once open, use the following as a starting configuration.
 Some key elements to take note of are:
 - `drivers`: `install` - automatically install third party drivers, here we use `true`.
 - `identity`: `hostname` - this is the name of the server being loaded, here we use `ubuntu-server`.
-- `identity`: `username` - the username for the admin user, here we use `ecolab`.
+- `identity`: `username` - the username for the admin user, here we use `myuser`.
 - `identity`: `password` - the hashed password.
 - `keyboard`: `layout` - which keyboard layout to use, here we use `us` and no `variant`.
 - `late-commands` - this is an array of comamnds to run after the installation has been completed. Here, we change the grub timeout to `5` seconds.
@@ -69,9 +69,9 @@ autoinstall:
         install: true
     identity:
         hostname: ubuntu-server
-        username: ecolab
-        # "ecolab12345" - created with `mkpasswd --method=SHA-512` - mkpasswd requires the whois package to be installed
-        password: "$6$2hQrUco6IPiGo.rT$MO3EfPm6gGHuWeKusb2JTPGefa2AB6UKS5UHnpP5ZSZGtk93ATzkIkJjbb9Mx4DsCu9MC47PLMEFuQuvBQiSa0"
+        username: myuser
+        # "password12345" - created with `mkpasswd --method=SHA-512` - mkpasswd requires the whois package to be installed
+        password: "$6$6zmqqdhUD0P1U53z$GfcDZhZKO0DomtOcmZa9Mk60XwBiPiW0xgRcmac1RyXwe319wM.WAMQPshKPqNbSWu0nra6cagnE7VpDfpN3S1"
     keyboard:
         layout: us
         toggle: null
