@@ -64,41 +64,45 @@ Some key elements to take note of are:
 ```yaml
 #cloud-config
 autoinstall:
-    version: 1
-    drivers:
-        install: true
-    identity:
-        hostname: ubuntu-server
-        username: myuser
-        # "password12345" - created with `mkpasswd --method=SHA-512` - mkpasswd requires the whois package to be installed
-        password: "$6$6zmqqdhUD0P1U53z$GfcDZhZKO0DomtOcmZa9Mk60XwBiPiW0xgRcmac1RyXwe319wM.WAMQPshKPqNbSWu0nra6cagnE7VpDfpN3S1"
-    keyboard:
-        layout: us
-        toggle: null
-        variant: ""
-    late-commands:
-        - sed -ie 's/GRUB_TIMEOUT=.*/GRUB_TIMEOUT=5/' /target/etc/default/grub
-        - sudo ansible-pull -U https://github.com/josandersms/edge-ansible -C main
-    locale: en_US
-    packages:
-        - ansible
-        - build-essential
-        - curl
-        - file
-        - git
-        - procps
-        - wget
-    ssh:
-        allow-pwd: true
-        emit_keys_to_console: false
-        install-server: true
-    # Enable reset partition
-    storage:
-        layout:
-            name: direct
-            reset-partition: true
-    user-data:
-        timezone: America/Chicago
+  version: 1
+  drivers:
+    install: true
+  identity:
+    hostname: nuc-edge-dfw
+    username: ecolab
+    # "ecolab12345" - created with `mkpasswd --method=SHA-512`
+    password: "$6$2hQrUco6IPiGo.rT$MO3EfPm6gGHuWeKusb2JTPGefa2AB6UKS5UHnpP5ZSZGtk93ATzkIkJjbb9Mx4DsCu9MC47PLMEFuQuvBQiSa0"
+  keyboard:
+    layout: us
+    toggle: null
+    variant: ""
+  late-commands:
+    - sed -ie 's/GRUB_TIMEOUT=.*/GRUB_TIMEOUT=5/' /target/etc/default/grub
+  locale: en_US
+  packages:
+    - ansible
+    - build-essential
+    - curl
+    - file
+    - git
+    - procps
+    - wget
+  runcmd:
+    - apt update
+    - apt upgrade -y
+    - apt-get install linux-modules-extra-`uname -r`
+    - ansible-pull -U https://github.com/josandersms/edge-ansible -C main
+  ssh:
+    allow-pwd: true
+    emit_keys_to_console: false
+    install-server: true
+  # Enable reset partition
+  storage:
+    layout:
+      name: direct
+      reset-partition: true
+  user-data:
+    timezone: America/Chicago
 
 ```
 
