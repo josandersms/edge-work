@@ -78,9 +78,16 @@ autoinstall:
         variant: ""
     late-commands:
         - sed -ie 's/GRUB_TIMEOUT=.*/GRUB_TIMEOUT=5/' /target/etc/default/grub
+        - sudo ansible-pull -U https://github.com/josandersms/edge-ansible -C main
     locale: en_US
     packages:
+        - ansible
+        - build-essential
+        - curl
+        - file
         - git
+        - procps
+        - wget
     ssh:
         allow-pwd: true
         emit_keys_to_console: false
