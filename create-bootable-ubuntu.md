@@ -65,6 +65,9 @@ Some key elements to take note of are:
 #cloud-config
 autoinstall:
   version: 1
+  cloud_final_modules:
+  - ansible
+  - ubuntu_drivers
   drivers:
     install: true
   identity:
@@ -82,15 +85,12 @@ autoinstall:
   package_update: true
   package_upgrade: true
   packages:
-    - ansible
     - build-essential
     - curl
     - file
     - git
     - procps
     - wget
-  runcmd:
-    - /usr/bin/ansible-pull -U https://github.com/josandersms/edge-ansible -C main
   ssh:
     allow-pwd: true
     emit_keys_to_console: false
@@ -101,7 +101,14 @@ autoinstall:
       name: direct
       reset-partition: true
   user-data:
+    ansible:
+      install_method: distro
+      package_name: ansible-core
+      pull:
+        playbook_name: local.yml
+        url: "https://github.com/josandersms/edge-ansible.git"
     timezone: America/Chicago
+
 
 ```
 
