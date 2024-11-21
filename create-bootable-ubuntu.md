@@ -79,6 +79,8 @@ autoinstall:
   late-commands:
     - sed -ie 's/GRUB_TIMEOUT=.*/GRUB_TIMEOUT=5/' /target/etc/default/grub
   locale: en_US
+  package_update: true
+  package_upgrade: true
   packages:
     - ansible
     - build-essential
@@ -88,10 +90,7 @@ autoinstall:
     - procps
     - wget
   runcmd:
-    - apt update
-    - apt upgrade -y
-    - apt-get install linux-modules-extra-`uname -r`
-    - ansible-pull -U https://github.com/josandersms/edge-ansible -C main
+    - /usr/bin/ansible-pull -U https://github.com/josandersms/edge-ansible -C main
   ssh:
     allow-pwd: true
     emit_keys_to_console: false
