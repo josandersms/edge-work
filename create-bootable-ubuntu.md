@@ -130,7 +130,9 @@ Once open, use the following as a starting configuration.
 
 Some key elements to take note of are:
 - `set timeout=0` - don't wait to begin installation.
-- `menuentry "Try or Install Ubuntu Server"` - the `linux /casper/vmlinuz` command is appended with `autoinstall` to kick off auto installation and is directed to look for cloud-init `user-data` and `meta-data` files in the root of the iso.
+- `menuentry "Try or Install Ubuntu Server"` - the `linux /casper/vmlinuz` command is appended with `autoinstall` to kick off auto installation and is directed to look for cloud-init `user-data` and `meta-data` files in the root of the iso. 
+> NOTE: To use cloud-init scrips from a remote source, change `ds='nocloud;s=/cdrom/'` to `ds='nocloud;s=https://your-uri-here/path/to/user-data_and_meta-data'`
+
 ```
 set timeout=0
 
@@ -142,6 +144,7 @@ set menu_color_highlight=black/light-gray
 menuentry "Try or Install Ubuntu Server" {
         set gfxpayload=keep
         linux /casper/vmlinuz autoinstall ds='nocloud;s=/cdrom/' ---
+        # linux /casper/vmlinuz autoinstall ds='nocloud;s=https://sapocecldevex001.z22.web.core.windows.net/' ---
         initrd /casper/initrd
 }
 menuentry "Ubuntu Server with the HWE kernel" {
