@@ -57,7 +57,7 @@ Some key elements to take note of are:
 - `late-commands` - this is an array of comamnds to run after the installation has been completed. Here, we change the grub boot timeout to `5` seconds.
 - `locale` - this is the system locale, here we use `en_US`.
 - `package_update` - Update the package manager, equivalent of `apt update` on Ubuntu, here we use `true`.
-- `package_upgrade` - Upgrade packages in the package manager, equivalent of `apt upgrade` on Ubuntu, here we use `true`.
+- `package_upgrade` - Upgrade packages in the package manager, equivalent of `apt upgrade -y` on Ubuntu, here we use `true`.
 - `packages` - this is an array of packages to have installed automatically.
 - `ssh`: `install-server` - whether or not to install the SSH server, here we use `true`.
 - `ssh`: `allow-pwd` - whether or not to allow passwords or only allow certificates, here we use `true` to allow passwords.
