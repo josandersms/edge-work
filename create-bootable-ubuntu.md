@@ -51,7 +51,7 @@ Some key elements to take note of are:
 - `drivers`: `install` - automatically install third party drivers, here we use `true`.
 - `identity`: `hostname` - this is the name of the server being loaded, here we use `ubuntu-server`.
 - `identity`: `username` - the username for the admin user, here we use `myuser`.
-- `identity`: `password` - the hashed password.
+- `identity`: `password` - the hashed password, created with `mkpasswd --method=SHA-512`.
 - `keyboard`: `layout` - which keyboard layout to use, here we use `us` and no `variant`.
 - `late-commands` - this is an array of comamnds to run after the installation has been completed. Here, we change the grub timeout to `5` seconds.
 - `locale` - this is the system locale, here we use `en_US`.
@@ -72,9 +72,9 @@ autoinstall:
     install: true
   identity:
     hostname: nuc-edge-dfw
-    username: ecolab
-    # "ecolab12345" - created with `mkpasswd --method=SHA-512`
-    password: "$6$2hQrUco6IPiGo.rT$MO3EfPm6gGHuWeKusb2JTPGefa2AB6UKS5UHnpP5ZSZGtk93ATzkIkJjbb9Mx4DsCu9MC47PLMEFuQuvBQiSa0"
+    username: myuser
+    # "password12345" - created with `mkpasswd --method=SHA-512`
+    password: "$6$dFP80U5oilyxAzY6$e4YKVt8jhDVYe08ILgAL66WULgbUsW/g9mmFMxAnUsSHlT9R/vbJexsYeura0U7tVpl4CNvnE9L3.IEmrAOBM0"
   keyboard:
     layout: us
     toggle: null
@@ -168,12 +168,19 @@ fi
 ```
 
 ## Rebuild the modified ISO
+We must rebuild into a modified ISO (with at least our `grub.cfg`). If you are using the integrated option of cloud-init, as in you will be deploying the `user-data` and `meta-data` files with the ISO go to option [A](#option-a---deploy-integrated-cloud-init). If you are using the remote placement of cloud-init, as in you will be placing `user-data` and `meta-data` on an https server for pull, go to option [B](#option-b---deploy-remote-cloud-init).
 > NOTE: Do ***NOT*** modify the `/new/iso` path, which is the root of the new iso created by `livefs-edit`.
 
 > NOTE: You can name the output file whatever you'd like, here we are using `ubuntu-22.04.5-live-server-amd64-modified.iso`.
 
+### Option A - Deploy integrated cloud-init
 ```bash 
 sudo livefs-edit ./ubuntu-22.04.5-live-server-amd64.iso ./ubuntu-22.04.5-live-server-amd64-modified.iso --cp ~/ubuntu/grub.cfg new/iso/boot/grub/grub.cfg --cp ~/ubuntu/meta-data new/iso/meta-data --cp ~/ubuntu/user-data new/iso/user-data
+```
+
+### Option B - Deploy remote cloud-init
+```bash 
+sudo livefs-edit ./ubuntu-22.04.5-live-server-amd64.iso ./ubuntu-22.04.5-live-server-amd64-modified.iso --cp ~/ubuntu/grub.cfg new/iso/boot/grub/grub.cfg
 ```
 
 ## Test the installation
@@ -192,6 +199,7 @@ sudo kvm -m 2048 -drive file=~/ubuntu/image.img,format=raw,cache=none,if=virtio 
 
 ### Wait and login
 1. Once the installation has completed, the VM should automatically restart and present a login prompt.  
+1. If you're using Ansible as above, the playbook specified will immediately begin executing - once it is complete, you can login (you may have to press `enter` on your keyboard to get the prompt).
 1. Use the username and password from the `cloud-init` step before in the `user-data` file.
 1. After you have logged in, you can issue `exit` to logout, and then shut down the VM.
 
