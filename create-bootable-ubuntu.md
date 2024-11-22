@@ -48,18 +48,26 @@ Once open, use the following as a starting configuration.
 > NOTE: For the password, you will need to generate this using `mkpasswd` which is part of the `whois` package (`apt install whois`) OR `openssl passwd`. The below example was generated with `mkpasswd --method=SHA-512`.
 
 Some key elements to take note of are:
+- `cloud_final_modules` - Required to run Ansible and Ubuntu Drivers as part of cloud-init final.
 - `drivers`: `install` - automatically install third party drivers, here we use `true`.
 - `identity`: `hostname` - this is the name of the server being loaded, here we use `ubuntu-server`.
 - `identity`: `username` - the username for the admin user, here we use `myuser`.
 - `identity`: `password` - the hashed password, created with `mkpasswd --method=SHA-512`.
 - `keyboard`: `layout` - which keyboard layout to use, here we use `us` and no `variant`.
-- `late-commands` - this is an array of comamnds to run after the installation has been completed. Here, we change the grub timeout to `5` seconds.
+- `late-commands` - this is an array of comamnds to run after the installation has been completed. Here, we change the grub boot timeout to `5` seconds.
 - `locale` - this is the system locale, here we use `en_US`.
+- `package_update` - Update the package manager, equivalent of `apt update` on Ubuntu, here we use `true`.
+- `package_upgrade` - Upgrade packages in the package manager, equivalent of `apt upgrade` on Ubuntu, here we use `true`.
 - `packages` - this is an array of packages to have installed automatically.
 - `ssh`: `install-server` - whether or not to install the SSH server, here we use `true`.
 - `ssh`: `allow-pwd` - whether or not to allow passwords or only allow certificates, here we use `true` to allow passwords.
 - `ssh`: `emit_keys_to_console` - we don't want to show any ssh keys on the initial boot, so we use `false` here.
 - `storage`: `layout` - we create a recovery partition by specifying `name` of `direct` and `reset-partition` of `true`.
+- `user-data`: `ansible` - Because we are in the cloud-init `autoinstall` module, in order to execute additional tasks not supported by the module (such as during the `final` stage of cloud-init), we must place them under the `user-data` section. This is the only method that can be used with `autoinstall` to kick off `Ansible` on first boot/end of install.
+- `user-data`: `ansible`: `install_method` - How to install ansible, options are `distro` or `pip`, here we use `distro`.
+- `user-data`: `ansible`: `package_name` - Since we are using Ansible Pull, we opt for `ansible-core` here.
+- `user-data`: `ansible`: `pull`: `playbook_name` - The playbook to execute, staying in line with typical `ansible-pull` repositories, this is `local.yml`.
+- `user-data`: `ansible`: `pull`: `url` - The path to the actual Git repository that stores the Ansible files. This must be appended with the `.git` extension, and will always assume `main` brainch.
 - `user-data`: `timezone` - the time zone for the machine, here we use `America/Chicago` for Central time in the United States.
 ```yaml
 #cloud-config
@@ -71,7 +79,7 @@ autoinstall:
   drivers:
     install: true
   identity:
-    hostname: nuc-edge-dfw
+    hostname: ubuntu-server
     username: myuser
     # "password12345" - created with `mkpasswd --method=SHA-512`
     password: "$6$dFP80U5oilyxAzY6$e4YKVt8jhDVYe08ILgAL66WULgbUsW/g9mmFMxAnUsSHlT9R/vbJexsYeura0U7tVpl4CNvnE9L3.IEmrAOBM0"
