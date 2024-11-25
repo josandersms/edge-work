@@ -237,7 +237,7 @@ sudo gdisk /dev/sda
 
 In the prompts following the `gdisk` command, enter `r` for Recovery/transformation menu, then `g` for `convert GPT into MBR and exit`, then `w` for `write the MBR partition table to disk and exit`, and finally `y` for `Finalize and exit`.
 
-Finally, partition the disk
+Finally, re-check the disk
 ```bash
 sudo fdisk -l /dev/sda
 ```
